@@ -158,27 +158,62 @@ class CDate{
         }
     }
 
-
+	//ham 8 - 13 
+	
+	void IncYear(int n)
+	{
+		for(int i = 0 ; i < n ; i ++)
+		{
+			IncYear();
+		}
+	}
+	void DecYear(int n){
+		for(int i = 0 ; i < n ; i ++)
+		{
+			DecYear();
+		}
+	}
+	void IncMonth(int n)
+	{
+		for(int i = 0 ; i < n ; i ++)
+		{
+			IncMonth();
+		}
+	}
+	void DecMonth(int n)
+	{
+		for(int i = 0 ; i < n ; i ++)
+		{
+			DecMonth();
+		}
+	}
+	void IncDay(int n)
+	{
+		for(int i = 0 ; i < n ; i ++)
+		{
+			IncDay();
+		}
+	}
+	void DecDay(int n){
+		for(int i = 0 ; i < n ; i ++)
+		{
+			DecDay();
+		}
+	}
 };
 int CDate::DayinMonth[13]= { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }; 
 int main()
 {
 	
 	try{
-	CDate d(30,12,2024);
+	CDate d(12,4,2024);
 	d.Print();
 	
-	d.IncDay();
+	d.IncDay(4000);
 	d.Print();
 	
-	d.IncDay();
-	d.Print();
 	
-		for (int i = 0 ; i < 100 ; i ++)
-		{
-				d.IncDay();
-				d.Print();
-		}
+	
 	}
 	catch(logic_error e)
 	{
