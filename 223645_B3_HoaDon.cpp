@@ -53,13 +53,15 @@ class HoaDon{
 		
 			cout<<"Ma Hoa Don :  "<<MaHoaDon<<endl;
 			cout<<"Tong So San Pham: "<<TongSanPham<<endl;
-			cout<<"Tong Tien  :"<<TongTien<<endl;
+			//
 			cout<<"Danh Sach San Pham: "<<endl;
 			cout<<setw(10)<<left<<"Ma SP"<<setw(25)<<left<<"Ten San Pham"<<setw(10)<<right<<"Don Gia"<<endl;
 			for(int i = 0 ; i < TongSanPham; i ++)
 			{
 				SP[i].Xuat();
 			}
+			cout<<setw(45)<<right<<"=======Thanh Tien======="<<endl;
+			cout<<setw(35)<<left<<"Tong tien: "<<setw(10)<<right<<TongTien<<endl;
 					
 		}
 };
