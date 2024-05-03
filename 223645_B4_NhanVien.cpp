@@ -86,7 +86,7 @@
 		{
 			NhanVien::Xuat();
 			cout<<"\nLuong Co Ban :"<<LuongCoBan<<"\nPhu Cap Phuc Vu:"<<PhuCapChucVu<<"\nHe So Luong: "<<HeSoLuong<<endl;
-				cout<<fixed<<setprecision(0)<<"\nLuong: "<<TinhLuong()<<"VND"<<endl;
+				cout<<fixed<<setprecision(2)<<"\nLuong: "<<TinhLuong()<<"VND"<<endl;
 		}
 		double TinhLuong()
 		{
