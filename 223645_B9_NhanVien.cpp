@@ -1,127 +1,122 @@
 #include <iostream>
 #include <string>
-
 using namespace std;
 
-class NhanVien {
+class nhanvien {
 protected:
-    string hoTen;
-    string ngaySinh;
-    double luong;
+    string hoten, ngaysinh;
+    int luong;  
 public:
-    virtual void nhapThongTin() = 0;
-    virtual double tinhLuong() = 0;
-    virtual void xuatThongTin() = 0;
-    double getLuong() { return luong; }
-};
-
-class NhanVienVanPhong : public NhanVien {
-private:
-    int soNgayLamViec;
-public:
-    void nhapThongTin()  {
-        cout << "Nhap ho ten: ";
+    virtual void Nhap() {
         cin.ignore();
-        getline(cin, hoTen);
-        cout << "Nhap ngay sinh: ";
-        getline(cin, ngaySinh);
-        cout << "Nhap so ngay lam viec: ";
-        cin >> soNgayLamViec;
+        cout << "Ho va ten: "; getline(cin, hoten);
+        cout << "Ngay sinh: "; getline(cin, ngaysinh);
     }
-
-    double tinhLuong()  {
-        luong = soNgayLamViec * 100000;
+    virtual void Xuat() {
+        cout << hoten << " " << ngaysinh << " " << luong;
+    }
+    virtual void tinhluong() = 0;
+    int getLuong() {
         return luong;
     }
-
-    void xuatThongTin()  {
-        cout << "Ho ten: " << hoTen << endl;
-        cout << "Ngay sinh: " << ngaySinh << endl;
-        cout << "Luong: " << luong << endl;
-    }
 };
 
-class NhanVienSanXuat : public NhanVien {
+class nvvanphong : public nhanvien {
 private:
-    int luongCanBan;
-    int soSanPham;
+    int songaylamviec;
 public:
-    void nhapThongTin()  {
-        cout << "Nhap ho ten: ";
-        cin.ignore();
-        getline(cin, hoTen);
-        cout << "Nhap ngay sinh: ";
-        getline(cin, ngaySinh);
-        cout << "Nhap luong can ban: ";
-        cin >> luongCanBan;
-        cout << "Nhap so san pham: ";
-        cin >> soSanPham;
+    void Nhap() {
+        nhanvien::Nhap();
+        cout << "So ngay lam viec: "; cin >> songaylamviec;
     }
-
-    double tinhLuong()  {
-        luong = luongCanBan + soSanPham * 5000;
-        return luong;
+    void Xuat()  {
+        nhanvien::Xuat();
+        cout << " " << songaylamviec << endl;
     }
-
-    void xuatThongTin()  {
-        cout << "Ho ten: " << hoTen << endl;
-        cout << "Ngay sinh: " << ngaySinh << endl;
-        cout << "Luong: " << luong << endl;
+    void tinhluong()  {
+        luong = songaylamviec * 100000;
     }
 };
+
+class nvsanxuat : public nhanvien {
+private:
+    int sosanpham;
+    int luongcanban;
+public:
+    void Nhap()  {
+        nhanvien::Nhap();
+        cout << "So san pham: "; cin >> sosanpham;
+        cout << "Luong can ban: "; cin >> luongcanban;
+    }
+    void Xuat()  {
+        nhanvien::Xuat();
+        cout << " " << sosanpham << " " << luongcanban << endl;
+    }
+    void tinhluong()  {
+        luong = luongcanban + sosanpham * 5000;
+    }
+};
+
 int main() {
-    int MAX_NHANVIEN = 100;
-    NhanVien* danhSachNhanVien[MAX_NHANVIEN];
-    int soLuongNhanVien = 0;
+    nhanvien **nv;
+    int n, chon;
+
+    cout << "So luong nhan vien: "; cin >> n;
+
+    nv = new nhanvien*[n];
+
+ 
+    for (int i = 0; i < n; i++) {
+        do {
+            cout << "Nhan vien van phong(1) hay san xuat(2): "; cin >> chon;
+        } while (chon != 1 && chon != 2);
+
+        if (chon == 1) {
+            nv[i] = new nvvanphong();
+        } else {
+            nv[i] = new nvsanxuat();
+        }
+        nv[i]->Nhap();
+        nv[i]->tinhluong();
+    }
 
     
-    cout << "Nhap so luong nhan vien van phong: ";
-    int n;
-    cin >> n;
-    for (int i = 0; i < n; ++i) {
-        danhSachNhanVien[soLuongNhanVien] = new NhanVienVanPhong();
-        danhSachNhanVien[soLuongNhanVien]->nhapThongTin();
-        soLuongNhanVien++;
-    }
-
-    cout << "Nhap so luong nhan vien san xuat: ";
-    cin >> n;
-    for (int i = 0; i < n; ++i) {
-        danhSachNhanVien[soLuongNhanVien] = new NhanVienSanXuat();
-        danhSachNhanVien[soLuongNhanVien]->nhapThongTin();
-        soLuongNhanVien++;
+    cout << "Thong tin nhan vien:" << endl;
+    for (int i = 0; i < n; i++) {
+        nv[i]->Xuat();
     }
 
     
-    double tongLuong = 0;
-    for (int i = 0; i < soLuongNhanVien; ++i) {
-        cout << "Thong tin nhan vien " << i + 1 << ":" << endl;
-        double luong = danhSachNhanVien[i]->tinhLuong();
-        danhSachNhanVien[i]->xuatThongTin();
-        tongLuong += luong;
-        cout << endl;
+    int tongLuong = 0;
+    for (int i = 0; i < n; i++) {
+        tongLuong += nv[i]->getLuong();
     }
-
-  
-    cout << "Tong luong phai tra cho tat ca nhan vien: " << tongLuong << endl;
+    cout << "Tong luong: " << tongLuong << endl;
 
    
-    double luongCaoNhat = danhSachNhanVien[0]->getLuong();
-    double luongThapNhat = danhSachNhanVien[0]->getLuong();
-    for (int i = 1; i < soLuongNhanVien; ++i) {
-        double luong = danhSachNhanVien[i]->getLuong();
-        if (luong > luongCaoNhat)
-            luongCaoNhat = luong;
-        if (luong < luongThapNhat)
-            luongThapNhat = luong;
+    int maxLuong = nv[0]->getLuong();
+    int minLuong = nv[0]->getLuong();
+    int maxIndex = 0, minIndex = 0;
+    for (int i = 1; i < n; i++) {
+        if (nv[i]->getLuong() > maxLuong) {
+            maxLuong = nv[i]->getLuong();
+            maxIndex = i;
+        }
+        if (nv[i]->getLuong() < minLuong) {
+            minLuong = nv[i]->getLuong();
+            minIndex = i;
+        }
     }
-    cout << "Nhan vien co luong cao nhat: " << luongCaoNhat << endl;
-    cout << "Nhan vien co luong thap nhat: " << luongThapNhat << endl;
+    cout << "Nhan vien co luong cao nhat: ";
+    nv[maxIndex]->Xuat();
+    cout << "Nhan vien co luong thap nhat: ";
+    nv[minIndex]->Xuat();
 
-    
-    for (int i = 0; i < soLuongNhanVien; ++i) {
-        delete danhSachNhanVien[i];
+   
+    for (int i = 0; i < n; i++) {
+        delete nv[i];
     }
+    delete[] nv;
 
     return 0;
 }
